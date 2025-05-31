@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grub - FAQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'spin-slow': 'spin 2s linear infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-light': 'bounce 1s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                        'progress': 'progress 0.1s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', maxHeight: '0' },
+                            '100%': { opacity: '1', maxHeight: '500px' }
+                        },
+                        progress: {
+                            '0%': { width: '0%' },
+                            '100%': { width: 'var(--progress-width)' }
+                        }
+                    },
+                    cursor: {
+                        'custom': 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIgZmlsbD0iIzM5OGVkZiIvPgo8L3N2Zz4K"), auto'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-cursor {
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIgZmlsbD0iIzM5OGVkZiIvPgo8L3N2Zz4K"), auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 custom-cursor">
+    <!-- Loading Spinner (shows initially) -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex items-center justify-center">
+        <div class="relative">
+            <div class="w-16 h-16 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-spin-slow"></div>
+            <div class="absolute top-0 left-0 w-16 h-16 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+        <span class="ml-4 text-lg font-medium text-gray-700 dark:text-gray-300 animate-pulse-slow">Loading Grub...</span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progressBar" class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 z-40">
+        <div id="progressFill" class="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-100 ease-out" style="width: 0%"></div>
+    </div>
+
+    <!-- Sticky Navbar -->
+    <nav id="navbar" class=" sticky top-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 z-30 transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        🍽️ Grub
+                    </h1>
+                    <span class="hidden sm:inline-block text-sm text-gray-600 dark:text-gray-400">FAQ & Support</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg id="sunIcon" class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg id="moonIcon" class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a href="#faq" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">FAQ</a>
+                        <a href="#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Contact</a>
+                        <a href="https://grub.hackclub.com/gallery.html" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+                            Gallery
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent animate-fade-in">
+                Grub FAQ
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                Find answers to frequently asked questions about Grub submissions, reviews, and unique features.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#faq" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg">
+                    Browse FAQ
+                </a>
+                <a href="https://grub.hackclub.com/gallery.html" target="_blank" class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:border-blue-500 text-gray-700 dark:text-gray-300 px-8 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg">
+                    View Gallery
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Carousel -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Featured Submissions</h2>
+            <div class="relative max-w-4xl mx-auto">
+                <div id="carousel" class="overflow-hidden rounded-xl shadow-lg">
+                    <div id="carouselInner" class="flex transition-transform duration-500 ease-in-out">
+                        <div class="w-full flex-shrink-0">
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-64 flex items-center justify-center text-white text-2xl font-bold">
+                                Amazing Portfolio Site #1
+                            </div>
+                        </div>
+                        <div class="w-full flex-shrink-0">
+                            <div class="bg-gradient-to-r from-green-500 to-blue-500 h-64 flex items-center justify-center text-white text-2xl font-bold">
+                                Creative Blog Design #2
+                            </div>
+                        </div>
+                        <div class="w-full flex-shrink-0">
+                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-64 flex items-center justify-center text-white text-2xl font-bold">
+                                Interactive Dashboard #3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Carousel Controls -->
+                <button id="carouselPrev" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-colors duration-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button id="carouselNext" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-colors duration-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                
+                <!-- Carousel Dots -->
+                <div class="flex justify-center mt-6 space-x-2">
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-blue-600" data-slide="0"></button>
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-600" data-slide="1"></button>
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-600" data-slide="2"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div class="max-w-3xl mx-auto space-y-4">
+                
+                <!-- FAQ Item 1 -->
+                <div class="faq-item bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">How long does it take to review the submissions?</h3>
+                            <svg class="faq-icon w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="p-6 pt-0 text-gray-600 dark:text-gray-300">
+                            I try to review all the submissions within 24 hours.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Where can I track my submission status?</h3>
+                            <svg class="faq-icon w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="p-6 pt-0 text-gray-600 dark:text-gray-300">
+                            Check out our gallery at <a href="https://grub.hackclub.com/gallery.html" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">https://grub.hackclub.com/gallery.html</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Why is my submission not in the gallery?</h3>
+                            <svg class="faq-icon w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="p-6 pt-0 text-gray-600 dark:text-gray-300">
+                            Most likely, it means that your submission is flagged and we need some more time to review the website.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">I am not sure what is considered as a unique feature.</h3>
+                            <svg class="faq-icon w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="p-6 pt-0 text-gray-600 dark:text-gray-300">
+                            Feel free to ask in the chat!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="faq-item bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Does responsive design count as a unique feature?</h3>
+                            <svg class="faq-icon w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="p-6 pt-0 text-gray-600 dark:text-gray-300">
+                            No. It is a requirement, not a unique feature.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 6 -->
+                <div class="faq-item bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Can I use something other than GitHub Pages to host the website?</h3>
+                            <svg class="faq-icon w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="p-6 pt-0 text-gray-600 dark:text-gray-300">
+                            We encourage you all to use GitHub pages to deploy the website.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 7 -->
+                <div class="faq-item bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">What counts as a unique feature?</h3>
+                            <svg class="faq-icon w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="p-6 pt-0 text-gray-600 dark:text-gray-300">
+                            <p class="mb-2">It can include, but not limited to:</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Navbar</li>
+                                <li>Footer</li>
+                                <li>Sidebar</li>
+                                <li>Any larger components like blog cards, FAQ sections, or other interactive elements</li>
+                            </ul>
+                            <p class="mt-2 text-sm italic">(Responsive design is not considered as a unique feature, it is a requirement)</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-8">Still Have Questions?</h2>
+                <p class="text-gray-600 dark:text-gray-300 mb-8">
+                    If you have any other questions, don't hesitate to ask in the chat or reach out to me @Artem
+                </p>
+                
+                <!-- Contact Form with Character Counter -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-2">Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-200">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-200">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                            <textarea id="message" rows="4" maxlength="500" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-200" placeholder="Type your question here..."></textarea>
+                            <div class="text-right mt-2">
+                                <span id="charCount" class="text-sm text-gray-500">0/500</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 dark:bg-black text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">🍽️ Grub</h3>
+                    <p class="text-gray-400">A platform for showcasing amazing web development projects with unique features.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#faq" class="hover:text-blue-400 transition-colors duration-200">FAQ</a></li>
+                        <li><a href="https://grub.hackclub.com/gallery.html" target="_blank" class="hover:text-blue-400 transition-colors duration-200">Gallery</a></li>
+                        <li><a href="#contact" class="hover:text-blue-400 transition-colors duration-200">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors duration-200 cursor-pointer">
+                            <span class="text-sm">💬</span>
+                        </div>
+                        <div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors duration-200 cursor-pointer">
+                            <span class="text-sm">🐙</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Grub. Made with ❤️ for the community.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 z-20">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
